@@ -10,28 +10,36 @@ CertainShop là hệ thống thương mại điện tử chuyên kinh doanh các
 - Đăng ký, đăng nhập (Email/Username & Password).
 - Cập nhật thông tin cá nhân, đổi mật khẩu.
 - Xem lịch sử mua hàng.
+  
 **Hệ thống phân quyền**:
 - Quản lý vai trò (Admin, User).
 - Phân quyền truy cập và chức năng.
+  
 **Quản lý sản phẩm**:
 - Thêm, sửa, xoá sản phẩm.
 - Phân loại theo danh mục (Áo, Quần, Phụ kiện, v.v.).
 - Hiển thị hình ảnh, giá, mô tả sản phẩm.
+  
 **Giỏ hàng & Đặt hàng**:
 - Thêm/xoá/sửa sản phẩm trong giỏ hàng.
 - Tạo đơn hàng và xác nhận mua.
+  
 **Thanh toán**:
 - Hỗ trợ MoMo, chuyển khoản ngân hàng, COD.
 - Quản lý trạng thái đơn hàng.
+  
 **Mã giảm giá**:
 - Tạo và áp dụng voucher khi thanh toán.
 - Quản lý số lượng và thời hạn sử dụng.
+  
 **Quản lý đơn hàng**:
 - Theo dõi trạng thái đơn (Đang xử lý, Đang giao, Hoàn thành).
 - Lịch sử đơn hàng của người dùng.
+  
 **Báo cáo & thống kê**:
 - Thống kê doanh thu.
 - Quản lý số lượng sản phẩm đã bán.
+  
 
 # Đội Ngũ Phát Triển
 

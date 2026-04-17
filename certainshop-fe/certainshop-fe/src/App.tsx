@@ -22,6 +22,8 @@ import TaiKhoanPage from './pages/TaiKhoanPage';
 // Auth pages
 import DangNhapPage from './pages/DangNhapPage';
 import DangKyPage from './pages/DangKyPage';
+import QuenMatKhauPage from './pages/QuenMatKhauPage';
+import DatLaiMatKhauPage from './pages/DatLaiMatKhauPage';
 
 // Admin pages
 import DashboardPage from './pages/admin/DashboardPage';
@@ -55,6 +57,8 @@ export default function App() {
           {/* Auth pages - no layout */}
           <Route path="/dang-nhap" element={<DangNhapPage />} />
           <Route path="/dang-ky" element={<DangKyPage />} />
+          <Route path="/quen-mat-khau" element={<QuenMatKhauPage />} />
+          <Route path="/dat-lai-mat-khau" element={<DatLaiMatKhauPage />} />
           <Route path="/vnpay-return" element={<VNPayReturnPage />} />
 
           {/* Customer pages with Header+Footer */}

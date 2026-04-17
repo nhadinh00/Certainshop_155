@@ -229,6 +229,12 @@ export const authApi = {
 
   layThongTinToi: () =>
     api.get<ApiResponse<User>>('/auth/toi'),
+
+  quenMatKhau: (email: string) =>
+    api.post<ApiResponse<string>>('/auth/quen-mat-khau', { email }),
+
+  datLaiMatKhau: (token: string, matKhauMoi: string) =>
+    api.post<ApiResponse<string>>('/auth/dat-lai-mat-khau', { token, matKhauMoi }),
 };
 
 // ===================== SẢN PHẨM =====================
@@ -469,7 +475,7 @@ export const adminApi = {
     formData.append('file', file);
     formData.append('laAnhChinh', String(laAnhChinh));
     return api.post<ApiResponse<{ id: number; duongDan: string; laAnhChinh: boolean }>>(`/quan-ly/san-pham/bien-the/${bienTheId}/upload-anh`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: { 'Content-Type': undefined },
     });
   },
 

@@ -1,6 +1,6 @@
 # CertainShop - Website Bán Quần Áo Thời Trang
 
-**Giới Thiệu**
+# Giới Thiệu
 
 CertainShop là hệ thống thương mại điện tử chuyên kinh doanh các sản phẩm thời trang, giúp người dùng dễ dàng tìm kiếm, lựa chọn và mua sắm quần áo một cách nhanh chóng và tiện lợi. Hệ thống hỗ trợ quản lý sản phẩm, đơn hàng, thanh toán trực tuyến, mã giảm giá và lịch sử mua hàng.
 

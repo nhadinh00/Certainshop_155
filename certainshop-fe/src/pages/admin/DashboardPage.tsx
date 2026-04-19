@@ -3,7 +3,7 @@ import { ShoppingCart, Users, TrendingUp, Calendar, AlertCircle } from 'lucide-r
 import { adminApi } from '../../services/api';
 import { formatCurrency, trangThaiDonHangLabel } from '../../utils/format';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import RevenueChartCard from '../../components/admin/RevenueChartCard';
+import RevenueChartCard from '../../../certainshop-fe/src/components/admin/RevenueChartCard';
 
 interface ThongKe {
   doanhThuThang: number;

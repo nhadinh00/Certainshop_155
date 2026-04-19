@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { adminApi } from '../services/api';
+import { adminApi } from '../../../src/services/api';
 
 export type RevenueRange = '7d' | '12m';
 

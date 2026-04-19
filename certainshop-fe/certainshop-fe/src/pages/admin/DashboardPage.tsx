@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { ShoppingCart, Users, TrendingUp, Calendar, AlertCircle } from 'lucide-react';
 import { adminApi } from '../../services/api';
 import { formatCurrency, trangThaiDonHangLabel } from '../../utils/format';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import RevenueChartCard from '../../components/admin/RevenueChartCard';
 
 interface ThongKe {
   doanhThuThang: number;
@@ -14,34 +15,85 @@ interface ThongKe {
 export default function DashboardPage() {
   const [data, setData] = useState<ThongKe | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchDashboard = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await adminApi.tongQuan();
+      setData(response.data.duLieu as unknown as ThongKe);
+    } catch {
+      setError('Không thể tải dữ liệu tổng quan. Vui lòng thử lại.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    adminApi.tongQuan()
-      .then(r => setData(r.data.duLieu as unknown as ThongKe))
-      .finally(() => setLoading(false));
-  }, []);
+    fetchDashboard();
+  }, [fetchDashboard]);
+
+  const thongKeTrangThai = data?.thongKeTrangThai ?? {};
+
+  const tongDonHang = useMemo(
+    () => Object.values(thongKeTrangThai).reduce((a, b) => a + b, 0),
+    [thongKeTrangThai],
+  );
+
+  const choXacNhan = thongKeTrangThai.CHO_XAC_NHAN ?? 0;
+  const tyLeChoXacNhan = tongDonHang > 0 ? Math.round((choXacNhan / tongDonHang) * 100) : 0;
+
+  const cards = useMemo(
+    () => [
+      { label: 'Doanh thu hôm nay', value: formatCurrency(data?.doanhThuHomNay ?? 0), icon: TrendingUp },
+      { label: 'Doanh thu tháng', value: formatCurrency(data?.doanhThuThang ?? 0), icon: Calendar },
+      { label: 'Tổng đơn hàng', value: tongDonHang, icon: ShoppingCart },
+      { label: 'Khách hàng', value: data?.tongKhachHang ?? 0, icon: Users },
+    ],
+    [data?.doanhThuHomNay, data?.doanhThuThang, data?.tongKhachHang, tongDonHang],
+  );
+
+  const statusEntries = useMemo(
+    () => Object.entries(thongKeTrangThai).sort(([, a], [, b]) => b - a),
+    [thongKeTrangThai],
+  );
+
 
   if (loading) return <LoadingSpinner fullPage />;
 
-  const choXacNhan = data?.thongKeTrangThai?.CHO_XAC_NHAN ?? 0;
-  const tongDonHang = Object.values(data?.thongKeTrangThai || {}).reduce((a, b) => a + b, 0);
-
-  const cards = [
-    { label: 'Doanh thu hôm nay', value: formatCurrency(data?.doanhThuHomNay ?? 0), icon: TrendingUp },
-    { label: 'Doanh thu tháng', value: formatCurrency(data?.doanhThuThang ?? 0), icon: Calendar },
-    { label: 'Tổng đơn hàng', value: tongDonHang, icon: ShoppingCart },
-    { label: 'Khách hàng', value: data?.tongKhachHang ?? 0, icon: Users },
-  ];
+  if (error) {
+    return (
+      <div className="bg-[#FDFCFB] min-h-screen px-6 py-8">
+        <div className="max-w-xl mx-auto border border-[#F0EEE9] rounded-[2rem] p-6 bg-white text-center">
+          <AlertCircle className="w-6 h-6 text-[#7B8062] mx-auto mb-3" />
+          <p className="text-sm text-[#1A1A1A] mb-4">{error}</p>
+          <button
+            onClick={fetchDashboard}
+            className="px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-[0.12em] border border-[#7B8062] text-[#1A1A1A] hover:bg-[#7B8062] hover:text-white transition"
+          >
+            Tải lại
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-[#FDFCFB] min-h-screen px-6 py-8 font-sans">
+    <div className="bg-[#FDFCFB] min-h-screen px-6 py-8">
 
       {/* Title */}
-      <div className="mb-10">
+      <div className="mb-10 flex items-end justify-between gap-4 flex-wrap">
         <h2 className="text-3xl font-light tracking-tighter text-[#1A1A1A]">
-          Tổng <span className="font-serif italic text-[#7B8062]">quan</span>
+          Tổng <span className="italic text-[#7B8062]">quan</span>
         </h2>
-        <div className="w-10 h-[1px] bg-[#7B8062] mt-3"></div>
+        <button
+          onClick={fetchDashboard}
+          className="px-4 py-2 rounded-full text-[11px] font-semibold uppercase tracking-[0.12em] border border-[#F0EEE9] text-[#1A1A1A] hover:border-[#7B8062] transition"
+        >
+          Làm mới
+        </button>
       </div>
 
       {/* Cards */}
@@ -70,21 +122,24 @@ export default function DashboardPage() {
         <div className="border border-[#F0EEE9] rounded-[2rem] p-5 flex items-center gap-4 mb-10 bg-white">
           <AlertCircle className="w-5 h-5 text-[#7B8062]" />
           <p className="text-sm text-[#1A1A1A]">
-            Có <span className="font-semibold">{choXacNhan}</span> đơn hàng đang chờ xác nhận.
+            Có <span className="font-semibold">{choXacNhan}</span> đơn hàng đang chờ xác nhận ({tyLeChoXacNhan}%).
           </p>
         </div>
       )}
 
+      <RevenueChartCard />
+
       {/* Order status */}
-      {data?.thongKeTrangThai && Object.keys(data.thongKeTrangThai).length > 0 && (
+      {statusEntries.length > 0 && (
         <div className="bg-white border border-[#F0EEE9] rounded-[2rem] p-8">
           <h3 className="text-lg font-light text-[#1A1A1A] mb-6">
-            Trạng thái <span className="font-serif italic text-[#7B8062]">đơn hàng</span>
+            Trạng thái <span className="italic text-[#7B8062]">đơn hàng</span>
           </h3>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-            {Object.entries(data.thongKeTrangThai).map(([key, count]) => {
+            {statusEntries.map(([key, count]) => {
               const info = trangThaiDonHangLabel[key] || { label: key };
+              const ratio = tongDonHang > 0 ? Math.round((count / tongDonHang) * 100) : 0;
 
               return (
                 <div
@@ -94,6 +149,7 @@ export default function DashboardPage() {
                   <p className="text-2xl font-semibold text-[#1A1A1A]">
                     {count}
                   </p>
+                  <p className="text-[10px] text-[#8C8C8C] mt-1">{ratio}%</p>
                   <p className="text-[10px] uppercase tracking-[0.2em] text-[#8C8C8C] mt-2 font-black">
                     {info.label}
                   </p>
@@ -103,14 +159,6 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
-
-      {/* Font */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
-        .font-serif { font-family: 'Playfair Display', serif !important; }
-        .font-sans { font-family: 'Inter', sans-serif !important; }
-      `}</style>
     </div>
   );
 }

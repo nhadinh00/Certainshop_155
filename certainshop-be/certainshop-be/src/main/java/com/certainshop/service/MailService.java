@@ -271,4 +271,29 @@ public class MailService {
              "[" + shopName + "] Đơn hàng #" + maDonHang + " đã bị hủy",
              khuonHtml("Thông báo hủy đơn hàng", noiDung));
     }
+
+    // ================================================================
+    //  QUÊN MẬT KHẨU
+    // ================================================================
+
+    @Async
+    public void guiMailDatLaiMatKhau(String toEmail, String hoTen, String token) {
+        if (!hopLe(toEmail)) return;
+        String ten = (hoTen != null && !hoTen.isBlank()) ? hoTen : "Quý khách";
+        String resetLink = "http://localhost:5173/dat-lai-mat-khau?token=" + token;
+        String noiDung = "<p style=\"font-size:15px;\">Xin chào <strong>" + ten + "</strong>,</p>"
+            + "<p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn.</p>"
+            + "<p>Nhấn vào nút bên dưới để đặt lại mật khẩu:</p>"
+            + "<div style=\"text-align:center;margin:32px 0;\">"
+            + "<a href=\"" + resetLink + "\" style=\"background:#1A1A1A;color:#ffffff;"
+            + "padding:14px 40px;text-decoration:none;border-radius:4px;font-weight:bold;"
+            + "font-size:14px;letter-spacing:1px;display:inline-block;\">ĐẶT LẠI MẬT KHẨU</a>"
+            + "</div>"
+            + "<p style=\"color:#9ca3af;font-size:13px;\">Liên kết này sẽ hết hạn sau <strong>30 phút</strong>.</p>"
+            + "<p style=\"color:#9ca3af;font-size:13px;\">Nếu bạn không yêu cầu đặt lại mật khẩu, "
+            + "vui lòng bỏ qua email này. Tài khoản của bạn vẫn an toàn.</p>";
+        send(toEmail,
+             "[" + shopName + "] Đặt lại mật khẩu",
+             khuonHtml("Đặt lại mật khẩu", noiDung));
+    }
 }

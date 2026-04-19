@@ -138,4 +138,41 @@ public class AuthApiController {
         );
         return ResponseEntity.ok(ApiResponse.ok(data));//17 03
     }
+
+    // ======================== QUÊN MẬT KHẨU ========================
+
+    @PostMapping("/quen-mat-khau")
+    public ResponseEntity<?> quenMatKhau(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        if (email == null || email.isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.loi("Email không được để trống"));
+        }
+        try {
+            nguoiDungService.taoMaDatLaiMatKhau(email.trim());
+            return ResponseEntity.ok(ApiResponse.ok("Liên kết đặt lại mật khẩu đã được gửi đến email của bạn"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.loi(e.getMessage()));
+        }
+    }
+
+    @PostMapping("/dat-lai-mat-khau")
+    public ResponseEntity<?> datLaiMatKhau(@RequestBody Map<String, String> request) {
+        String token = request.get("token");
+        String matKhauMoi = request.get("matKhauMoi");
+        if (token == null || token.isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.loi("Mã xác nhận không hợp lệ"));
+        }
+        if (matKhauMoi == null || matKhauMoi.length() < 6) {
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.loi("Mật khẩu mới phải có ít nhất 6 ký tự"));
+        }
+        try {
+            nguoiDungService.datLaiMatKhau(token, matKhauMoi);
+            return ResponseEntity.ok(ApiResponse.ok("Đặt lại mật khẩu thành công. Bạn có thể đăng nhập ngay."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.loi(e.getMessage()));
+        }
+    }
 }

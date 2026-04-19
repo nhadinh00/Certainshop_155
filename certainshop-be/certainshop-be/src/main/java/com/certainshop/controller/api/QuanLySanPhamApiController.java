@@ -7,7 +7,6 @@ import com.certainshop.entity.BienThe;
 import com.certainshop.entity.SanPham;
 import com.certainshop.service.SanPhamService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,9 +26,6 @@ import java.util.Map;
 public class QuanLySanPhamApiController {
 
     private final SanPhamService sanPhamService;
-
-    @Value("${app.upload.dir:uploads/images}")
-    private String uploadDir;
 
     @GetMapping
     public ResponseEntity<ApiResponse<Map<String, Object>>> danhSach(
@@ -150,7 +146,7 @@ public class QuanLySanPhamApiController {
             @RequestParam("file") MultipartFile file,
             @RequestParam(defaultValue = "false") boolean laAnhChinh) {
         try {
-            var hinhAnh = sanPhamService.uploadAnhBienThe(bienTheId, file, laAnhChinh, uploadDir);
+            var hinhAnh = sanPhamService.uploadAnhBienThe(bienTheId, file, laAnhChinh);
             return ResponseEntity.ok(ApiResponse.ok("Upload ảnh thành công",
                     Map.of("id", hinhAnh.getId(), "duongDan", hinhAnh.getDuongDan(), "laAnhChinh", hinhAnh.getLaAnhChinh())));
         } catch (Exception e) {

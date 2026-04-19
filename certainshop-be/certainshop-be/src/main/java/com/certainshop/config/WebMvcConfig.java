@@ -6,20 +6,23 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+        private final UploadStorageProperties uploadStorageProperties;
+
+        public WebMvcConfig(UploadStorageProperties uploadStorageProperties) {
+                this.uploadStorageProperties = uploadStorageProperties;
+        }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Phục vụ ảnh upload từ thư mục ngoài classpath
-        Path uploadPath = Paths.get("uploads");
-        String uploadAbsPath = uploadPath.toFile().getAbsolutePath();
+                // Phục vụ ảnh từ thư mục cấu hình tuyệt đối và giữ fallback cho dữ liệu cũ.
+                String uploadRootUri = uploadStorageProperties.getUploadsRootDir().toUri().toString();
+                String legacyUploadRootUri = uploadStorageProperties.getLegacyUploadsRootDir().toUri().toString();
 
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:" + uploadAbsPath + "/");
+                                .addResourceLocations(uploadRootUri, legacyUploadRootUri);
 
         // CSS, JS, images tĩnh
         registry.addResourceHandler("/css/**")

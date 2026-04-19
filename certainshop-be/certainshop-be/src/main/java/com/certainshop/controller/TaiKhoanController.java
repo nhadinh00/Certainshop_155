@@ -1,5 +1,6 @@
 package com.certainshop.controller;
 
+import com.certainshop.config.UploadStorageProperties;
 import com.certainshop.entity.*;
 import com.certainshop.service.DiaChiService;
 import com.certainshop.service.NguoiDungService;
@@ -10,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -25,9 +25,7 @@ public class TaiKhoanController {
     private final NguoiDungService nguoiDungService;
     private final DiaChiService diaChiService;
     private final NguoiDungHienTai nguoiDungHienTai;
-
-    @Value("${app.upload.dir:uploads/images}")
-    private String uploadDir;
+    private final UploadStorageProperties uploadStorageProperties;
 
     @GetMapping("/thong-tin")
     public String thongTin(Model model) {
@@ -49,10 +47,10 @@ public class TaiKhoanController {
             String tenFile = "avatar_" + nguoiDung.getId() + "_" + UUID.randomUUID() +
                     anhDaiDien.getOriginalFilename().substring(
                             anhDaiDien.getOriginalFilename().lastIndexOf("."));
-            Path path = Paths.get(uploadDir).resolve(tenFile);
+            Path path = uploadStorageProperties.getUploadImagesDir().resolve(tenFile);
             Files.createDirectories(path.getParent());
             Files.copy(anhDaiDien.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            nguoiDungService.capNhatAnh(nguoiDung.getId(), "/uploads/images/" + tenFile);
+            nguoiDungService.capNhatAnh(nguoiDung.getId(), uploadStorageProperties.toPublicImagePath(tenFile));
         }
 
         try {

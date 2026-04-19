@@ -1,5 +1,6 @@
 package com.certainshop.service;
 
+import com.certainshop.config.UploadStorageProperties;
 import com.certainshop.dto.BienTheDto;
 import com.certainshop.dto.SanPhamDto;
 import com.certainshop.entity.*;
@@ -34,6 +35,7 @@ public class SanPhamService {
     private final ChatLieuRepository chatLieuRepository;
     private final HinhAnhBienTheRepository hinhAnhBienTheRepository;
     private final jakarta.persistence.EntityManager entityManager;
+    private final UploadStorageProperties uploadStorageProperties;
 
     /**
      * Tạo sản phẩm mới cùng biến thể
@@ -288,12 +290,12 @@ public class SanPhamService {
      * Upload ảnh biến thể
      */
     public HinhAnhBienThe uploadAnhBienThe(Long bienTheId, MultipartFile file,
-                                            boolean laAnhChinh, String uploadDir) throws IOException {
+                                            boolean laAnhChinh) throws IOException {
         BienThe bienThe = bienTheRepository.findById(bienTheId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy biến thể"));
 
         String tenFile = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path duongDan = Paths.get(uploadDir).resolve(tenFile);
+        Path duongDan = uploadStorageProperties.getUploadImagesDir().resolve(tenFile);
         Files.createDirectories(duongDan.getParent());
         Files.copy(file.getInputStream(), duongDan, StandardCopyOption.REPLACE_EXISTING);
 
@@ -305,7 +307,7 @@ public class SanPhamService {
 
         HinhAnhBienThe hinhAnh = HinhAnhBienThe.builder()
                 .bienThe(bienThe)
-                .duongDan("/uploads/images/" + tenFile)
+            .duongDan(uploadStorageProperties.toPublicImagePath(tenFile))
                 .laAnhChinh(laAnhChinh)
                 .thuTu(0)
                 .moTa(file.getOriginalFilename())
@@ -316,7 +318,7 @@ public class SanPhamService {
         // Cập nhật ảnh chính cho sản phẩm nếu chưa có hoặc đây là ảnh chính
         SanPham sanPham = bienThe.getSanPham();
         if (sanPham != null && (sanPham.getAnhChinh() == null || laAnhChinh)) {
-            sanPham.setAnhChinh("/uploads/images/" + tenFile);
+            sanPham.setAnhChinh(uploadStorageProperties.toPublicImagePath(tenFile));
             sanPhamRepository.save(sanPham);
         }
 

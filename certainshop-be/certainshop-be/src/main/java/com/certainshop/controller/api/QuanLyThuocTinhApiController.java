@@ -140,6 +140,9 @@ public class QuanLyThuocTinhApiController {
     @PostMapping("/danh-muc")
     public ResponseEntity<ApiResponse<DanhMuc>> themDanhMuc(@RequestBody DanhMuc danhMuc) {
         try {
+            if (danhMuc.getThuTuHienThi() == null) {
+                danhMuc.setThuTuHienThi(0);
+            }
             return ResponseEntity.ok(ApiResponse.ok("Thêm danh mục thành công", danhMucRepository.save(danhMuc)));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ApiResponse.loi(e.getMessage()));

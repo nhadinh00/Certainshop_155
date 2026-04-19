@@ -47,3 +47,4 @@ CertainShop là hệ thống thương mại điện tử chuyên kinh doanh các
 - Hồ Hải Nam
 - Ngô Tấn Tài
 - Nguyễn Thanh Phong
+- Trần Minh Kha

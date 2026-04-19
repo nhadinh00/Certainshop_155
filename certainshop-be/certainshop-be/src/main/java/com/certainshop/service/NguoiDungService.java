@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -234,6 +235,62 @@ public class NguoiDungService {
     @Transactional(readOnly = true)
     public Page<NguoiDung> layTheoVaiTro(String tenVaiTro, Pageable pageable) {
         return nguoiDungRepository.findByTenVaiTro(tenVaiTro, pageable);
+    }
+
+    // ======================== QUÊN MẬT KHẨU ========================
+
+    /**
+     * Tạo mã đặt lại mật khẩu và gửi email
+     */
+    public void taoMaDatLaiMatKhau(String email) {
+        NguoiDung nguoiDung = nguoiDungRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Email không tồn tại trong hệ thống"));
+
+        if (Boolean.FALSE.equals(nguoiDung.getDangHoatDong())) {
+            throw new IllegalArgumentException("Tài khoản đã bị khóa");
+        }
+
+        String token = UUID.randomUUID().toString();
+        nguoiDung.setMaDatLaiMatKhau(token);
+        nguoiDung.setThoiGianHetHanDatLaiMK(LocalDateTime.now().plusMinutes(30));
+        nguoiDungRepository.save(nguoiDung);
+
+        // Gửi email đặt lại mật khẩu (bất đồng bộ)
+        mailService.guiMailDatLaiMatKhau(
+                nguoiDung.getEmail(),
+                nguoiDung.getHoTen(),
+                token
+        );
+    }
+
+    /**
+     * Đặt lại mật khẩu bằng mã token
+     */
+    public void datLaiMatKhau(String token, String matKhauMoi) {
+        if (token == null || token.isBlank()) {
+            throw new IllegalArgumentException("Mã xác nhận không hợp lệ");
+        }
+        if (matKhauMoi == null || matKhauMoi.length() < 6) {
+            throw new IllegalArgumentException("Mật khẩu mới phải có ít nhất 6 ký tự");
+        }
+
+        NguoiDung nguoiDung = nguoiDungRepository.findByMaDatLaiMatKhau(token)
+                .orElseThrow(() -> new IllegalArgumentException("Mã xác nhận không hợp lệ hoặc đã hết hạn"));
+
+        if (nguoiDung.getThoiGianHetHanDatLaiMK() == null
+                || nguoiDung.getThoiGianHetHanDatLaiMK().isBefore(LocalDateTime.now())) {
+            // Xóa token hết hạn
+            nguoiDung.setMaDatLaiMatKhau(null);
+            nguoiDung.setThoiGianHetHanDatLaiMK(null);
+            nguoiDungRepository.save(nguoiDung);
+            throw new IllegalArgumentException("Mã xác nhận đã hết hạn. Vui lòng yêu cầu lại.");
+        }
+
+        nguoiDung.setMatKhauMaHoa(passwordEncoder.encode(matKhauMoi));
+        nguoiDung.setMaDatLaiMatKhau(null);
+        nguoiDung.setThoiGianHetHanDatLaiMK(null);
+        nguoiDung.setLanDoiMatKhauCuoi(LocalDateTime.now());
+        nguoiDungRepository.save(nguoiDung);
     }
 }
 

@@ -64,6 +64,9 @@ public class NguoiDung {
     @Column(name = "MaDatLaiMatKhau", length = 255)
     private String maDatLaiMatKhau;
 
+    @Column(name = "ThoiGianHetHanDatLaiMK")
+    private LocalDateTime thoiGianHetHanDatLaiMK;
+
     @Column(name = "LanDoiMatKhauCuoi")
     private LocalDateTime lanDoiMatKhauCuoi;
 

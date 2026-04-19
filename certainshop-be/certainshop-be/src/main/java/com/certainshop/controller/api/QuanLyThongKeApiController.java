@@ -9,7 +9,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +36,14 @@ public class QuanLyThongKeApiController {
 
     @GetMapping("/doanh-thu")
     public ResponseEntity<ApiResponse<Map<String, Object>>> doanhThu(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime tuNgay,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime denNgay) {
+            @RequestParam String tuNgay,
+            @RequestParam String denNgay) {
         try {
-            List<Object[]> chiTiet = thongKeService.thongKeDoanhThuTheoNgay(tuNgay, denNgay);
-            BigDecimal tongDoanhThu = thongKeService.tinhTongDoanhThu(tuNgay, denNgay);
+            LocalDateTime tuNgayParsed = parseDateTimeParam(tuNgay, false);
+            LocalDateTime denNgayParsed = parseDateTimeParam(denNgay, true);
+
+            List<Object[]> chiTiet = thongKeService.thongKeDoanhThuTheoNgay(tuNgayParsed, denNgayParsed);
+            BigDecimal tongDoanhThu = thongKeService.tinhTongDoanhThu(tuNgayParsed, denNgayParsed);
             Map<String, Object> data = Map.of(
                     "chiTiet", chiTiet,
                     "tongDoanhThu", tongDoanhThu
@@ -61,5 +67,14 @@ public class QuanLyThongKeApiController {
     @GetMapping("/san-pham-het-hang")
     public ResponseEntity<ApiResponse<?>> sanPhamHetHang() {
         return ResponseEntity.ok(ApiResponse.ok(thongKeService.sanPhamHetHang()));
+    }
+
+    private LocalDateTime parseDateTimeParam(String value, boolean endOfDay) {
+        try {
+            return LocalDateTime.parse(value);
+        } catch (DateTimeParseException ignored) {
+            LocalDate date = LocalDate.parse(value);
+            return endOfDay ? date.atTime(LocalTime.MAX) : date.atStartOfDay();
+        }
     }
 }

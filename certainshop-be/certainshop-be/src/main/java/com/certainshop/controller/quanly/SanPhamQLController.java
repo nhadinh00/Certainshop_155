@@ -7,7 +7,6 @@ import com.certainshop.repository.*;
 import com.certainshop.service.SanPhamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +33,6 @@ public class SanPhamQLController {
     private final KichThuocRepository kichThuocRepository;
     private final MauSacRepository mauSacRepository;
     private final ChatLieuRepository chatLieuRepository;
-
-    @Value("${app.upload.dir:uploads/images}")
-    private String uploadDir;
 
     @GetMapping
     public String danhSach(
@@ -191,7 +187,7 @@ public class SanPhamQLController {
             @RequestParam MultipartFile file,
             @RequestParam(defaultValue = "false") boolean laAnhChinh) {
         try {
-            sanPhamService.uploadAnhBienThe(id, file, laAnhChinh, uploadDir);
+            sanPhamService.uploadAnhBienThe(id, file, laAnhChinh);
             return ResponseEntity.ok(Map.of("thanhCong", true));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("thanhCong", false, "thongBao", e.getMessage()));

@@ -19,7 +19,16 @@ export default function DanhSachSanPhamPage() {
   const tuKhoa = searchParams.get('q') || '';
   const danhMucId = searchParams.get('danhMuc') ? Number(searchParams.get('danhMuc')) : undefined;
   const thuongHieuId = searchParams.get('thuongHieu') ? Number(searchParams.get('thuongHieu')) : undefined;
-  const trang = Number(searchParams.get('trang') || 0);
+  const pageFromUrl = Number(searchParams.get('page') || 1);
+  const [page, setPage] = useState(Number.isNaN(pageFromUrl) || pageFromUrl < 1 ? 1 : pageFromUrl);
+  const pageSize = 10;
+
+  useEffect(() => {
+    const normalizedPage = Number.isNaN(pageFromUrl) || pageFromUrl < 1 ? 1 : pageFromUrl;
+    if (normalizedPage !== page) {
+      setPage(normalizedPage);
+    }
+  }, [pageFromUrl, page]);
 
   useEffect(() => {
     sanPhamApi.danhMuc().then(r => setDanhMuc(r.data.duLieu || []));
@@ -28,21 +37,47 @@ export default function DanhSachSanPhamPage() {
 
   useEffect(() => {
     setLoading(true);
-    sanPhamApi.danhSach({ tuKhoa, danhMucId, thuongHieuId, trang, kichThuocTrang: 20 })
+    console.log('Pagination page state:', page);
+    sanPhamApi.danhSach({ tuKhoa, danhMucId, thuongHieuId, page, size: pageSize })
       .then(r => {
         const data = r.data.duLieu;
-        setSanPham(data?.danhSach || []);
-        setTotalPages(data?.tongSoTrang || 0);
-        setTotalElements(data?.tongSoBan || 0);
+        console.log('SanPham API response:', data);
+
+        const danhSachMoi = data?.content || data?.danhSach || [];
+        const tongTrang = data?.totalPages ?? data?.tongSoTrang ?? 0;
+        const tongBan = data?.totalElements ?? data?.tongSoBan ?? 0;
+
+        setSanPham(danhSachMoi);
+        setTotalPages(tongTrang);
+        setTotalElements(tongBan);
+
+        if (tongTrang > 0 && page > tongTrang) {
+          setPage(tongTrang);
+          setSearchParams(prev => {
+            const p = new URLSearchParams(prev);
+            p.set('page', String(tongTrang));
+            return p;
+          });
+        }
       })
       .finally(() => setLoading(false));
-  }, [tuKhoa, danhMucId, thuongHieuId, trang]);
+  }, [tuKhoa, danhMucId, thuongHieuId, page, pageSize, setSearchParams]);
 
   const setFilter = (key: string, value: string | null) => {
     const p = new URLSearchParams(searchParams);
     if (value) p.set(key, value); else p.delete(key);
-    p.delete('trang');
+    p.set('page', '1');
+    setPage(1);
     setSearchParams(p);
+  };
+
+  const handlePageChange = (nextPage: number) => {
+    if (nextPage < 1 || (totalPages > 0 && nextPage > totalPages) || nextPage === page) return;
+    const p = new URLSearchParams(searchParams);
+    p.set('page', String(nextPage));
+    setPage(nextPage);
+    setSearchParams(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -124,7 +159,7 @@ export default function DanhSachSanPhamPage() {
             {/* Reset Filters */}
             {(danhMucId || thuongHieuId || tuKhoa) && (
               <button 
-                onClick={() => { setSearchParams({}); setFilterOpen(false); }}
+                onClick={() => { setSearchParams({ page: '1' }); setPage(1); setFilterOpen(false); }}
                 className="w-full py-4 border border-[#E5E2D9] text-[10px] uppercase tracking-[0.3em] font-black text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-[#F9F7F2] transition-all duration-500 flex items-center justify-center gap-3"
               >
                 <X className="w-3 h-3" strokeWidth={3} /> Xóa lọc
@@ -141,7 +176,7 @@ export default function DanhSachSanPhamPage() {
                 <Search className="w-12 h-12 text-[#E5E2D9] mx-auto mb-6" strokeWidth={1} />
                 <p className="font-serif italic text-2xl text-[#1A1A1A] mb-4">Mảnh ghép còn thiếu</p>
                 <p className="text-[#8C8C8C] text-[11px] uppercase tracking-[0.2em] mb-8 font-medium">Không tìm thấy sản phẩm phù hợp với yêu cầu của bạn</p>
-                <button onClick={() => setSearchParams({})} className="text-[10px] uppercase tracking-[0.3em] font-black text-[#7B8062] border-b border-[#7B8062] pb-2 hover:opacity-60 transition-all">
+                <button onClick={() => { setSearchParams({ page: '1' }); setPage(1); }} className="text-[10px] uppercase tracking-[0.3em] font-black text-[#7B8062] border-b border-[#7B8062] pb-2 hover:opacity-60 transition-all">
                   Quay lại bộ sưu tập chính
                 </button>
               </div>
@@ -157,8 +192,8 @@ export default function DanhSachSanPhamPage() {
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-12 mt-24 pt-12 border-t border-[#F0EEE9]">
                     <button
-                      disabled={trang === 0}
-                      onClick={() => { setFilter('trang', String(trang - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      disabled={page === 1}
+                      onClick={() => handlePageChange(page - 1)}
                       className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-black disabled:opacity-20 hover:text-[#7B8062] transition-all"
                     >
                       <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" strokeWidth={1} />
@@ -168,16 +203,16 @@ export default function DanhSachSanPhamPage() {
                     <div className="flex gap-8 items-center">
                       {Array.from({ length: totalPages }, (_, i) => (
                         <button key={i}
-                          onClick={() => { setFilter('trang', String(i)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                          className={`text-[11px] tracking-[0.25em] font-bold transition-all relative ${i === trang ? 'text-[#1A1A1A] after:content-[""] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-[1px] after:bg-[#1A1A1A]' : 'text-[#C1C1C1] hover:text-[#1A1A1A]'}`}>
+                          onClick={() => handlePageChange(i + 1)}
+                          className={`text-[11px] tracking-[0.25em] font-bold transition-all relative ${i + 1 === page ? 'text-[#1A1A1A] after:content-[""] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-[1px] after:bg-[#1A1A1A]' : 'text-[#C1C1C1] hover:text-[#1A1A1A]'}`}>
                           {(i + 1).toString().padStart(2, '0')}
                         </button>
                       ))}
                     </div>
 
                     <button
-                      disabled={trang >= totalPages - 1}
-                      onClick={() => { setFilter('trang', String(trang + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      disabled={page >= totalPages}
+                      onClick={() => handlePageChange(page + 1)}
                       className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-black disabled:opacity-20 hover:text-[#7B8062] transition-all"
                     >
                       Trang sau

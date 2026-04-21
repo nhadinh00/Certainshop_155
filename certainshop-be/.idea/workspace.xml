@@ -6,6 +6,74 @@
   <component name="ChangeListManager">
     <list default="true" id="0216b120-5a26-4892-8029-4b67bcc0a305" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/src/main/java/com/certainshop/service/MailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/src/main/java/com/certainshop/service/MailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/config/BaoMatConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/config/BaoMatConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/config/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/config/GlobalExceptionHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/config/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/config/JwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/config/UploadStorageProperties.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/config/UploadStorageProperties.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/DatHangController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/DatHangController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/DonHangKhachController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/DonHangKhachController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/TaiKhoanController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/TaiKhoanController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/AuthApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/AuthApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/DiaChiApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/DiaChiApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/DonHangApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/DonHangApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/GHNApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/GHNApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/GioHangApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/GioHangApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/QuanLyNguoiDungApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/QuanLyNguoiDungApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/QuanLySanPhamApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/QuanLySanPhamApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/QuanLyThuocTinhApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/QuanLyThuocTinhApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/SanPhamApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/SanPhamApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/TaiKhoanApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/api/TaiKhoanApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/BanHangTaiQuayController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/BanHangTaiQuayController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/DonHangQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/DonHangQLController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/KhuyenMaiQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/KhuyenMaiQLController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/NguoiDungQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/NguoiDungQLController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/SanPhamQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/SanPhamQLController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/ThuocTinhQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/ThuocTinhQLController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/TongQuanController.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/controller/quanly/TongQuanController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/ApiResponse$ApiResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/ApiResponse$ApiResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/BienTheDto$BienTheDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/BienTheDto$BienTheDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/DangKyDto$DangKyDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/DangKyDto$DangKyDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/DatHangDto$DatHangDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/DatHangDto$DatHangDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/DiaChiChiTietDto$DiaChiChiTietDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/DiaChiChiTietDto$DiaChiChiTietDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/GHNPhiVanChuyenDto$GHNPhiVanChuyenDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/GHNPhiVanChuyenDto$GHNPhiVanChuyenDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/SanPhamDto$SanPhamDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/dto/SanPhamDto$SanPhamDtoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/BienThe$BienTheBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/BienThe$BienTheBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/BienThe.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/BienThe.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/ChatLieu$ChatLieuBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/ChatLieu$ChatLieuBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/ChiTietDonHang$ChiTietDonHangBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/ChiTietDonHang$ChiTietDonHangBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/DanhGia$DanhGiaBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/DanhGia$DanhGiaBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/DanhMuc$DanhMucBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/DanhMuc$DanhMucBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/DiaChiNguoiDung$DiaChiNguoiDungBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/DiaChiNguoiDung$DiaChiNguoiDungBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/DonHang$DonHangBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/DonHang$DonHangBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/GioHang$GioHangBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/GioHang$GioHangBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/GioHangChiTiet$GioHangChiTietBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/GioHangChiTiet$GioHangChiTietBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/HinhAnhBienThe$HinhAnhBienTheBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/HinhAnhBienThe$HinhAnhBienTheBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/KhuyenMai$KhuyenMaiBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/KhuyenMai$KhuyenMaiBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/KichThuoc$KichThuocBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/KichThuoc$KichThuocBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/LichSuTrangThaiDon$LichSuTrangThaiDonBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/LichSuTrangThaiDon$LichSuTrangThaiDonBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/MauSac$MauSacBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/MauSac$MauSacBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/NguoiDung$NguoiDungBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/NguoiDung$NguoiDungBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/SanPham$SanPhamBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/SanPham$SanPhamBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/ThanhToan$ThanhToanBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/ThanhToan$ThanhToanBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/ThuongHieu$ThuongHieuBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/ThuongHieu$ThuongHieuBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/VaiTro$VaiTroBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/VaiTro$VaiTroBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/Voucher$VoucherBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/entity/Voucher$VoucherBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/DiaChiService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/DiaChiService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/DonHangService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/DonHangService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/GHNApiService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/GHNApiService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/GioHangService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/GioHangService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/KhuyenMaiService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/KhuyenMaiService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/MailService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/MailService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/NguoiDungService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/NguoiDungService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/SanPhamService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/SanPhamService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/VoucherService.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/service/VoucherService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/util/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/util/JwtUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/util/NguoiDungHienTai.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/util/NguoiDungHienTai.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/util/VNPayUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/certainshop-be/target/classes/com/certainshop/util/VNPayUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/certainshop-be/uploads/images/368dd8b7-6ef4-4067-8b43-be545f6e1a01_221d3462b9dd37836ecc.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,25 +92,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.CertainShopApplication.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUZ/Documents/Dự án cuối môn/certainshop-be&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.CertainShopApplication.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.CertainShopApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Certainshop_155/certainshop-be",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
       </set>
     </attachedChunks>
   </component>

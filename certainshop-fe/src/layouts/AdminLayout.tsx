@@ -120,6 +120,13 @@ export default function AdminLayout() {
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #2D2D2D; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #7B8062; }
       `}</style>
+      <style>{`
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&display=swap');
+  
+  .font-serif {
+    font-family: 'Playfair Display', serif !important;
+  }
+`}</style>
     </div>
   );
 }

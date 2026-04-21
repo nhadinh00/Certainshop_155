@@ -61,31 +61,42 @@ public class MailService {
 
     /** Khung HTML chuẩn thương hiệu (không dùng String.formatted để tránh xung đột % trong CSS) */
     private String khuonHtml(String tieuDe, String noiDung) {
-        return "<div style=\"font-family:'Segoe UI',Arial,sans-serif;max-width:620px;margin:0 auto;"
-             + "background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;\">"
-             + "<div style=\"background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);"
-             + "padding:28px 30px;text-align:center;\">"
-             + "<h1 style=\"color:#ffffff;margin:0;font-size:24px;letter-spacing:1px;\">" + shopName + "</h1>"
-             + "<p style=\"color:rgba(255,255,255,0.85);margin:6px 0 0;font-size:13px;\">Chăm sóc khách hàng 24/7</p>"
-             + "</div>"
-             + "<div style=\"padding:32px 30px;\">"
-             + "<h2 style=\"color:#1f2937;margin-top:0;border-bottom:2px solid #f3f4f6;padding-bottom:12px;\">"
-             + tieuDe + "</h2>"
-             + noiDung
-             + "</div>"
-             + "<div style=\"background:#f9fafb;border-top:1px solid #e5e7eb;padding:16px 30px;text-align:center;\">"
-             + "<p style=\"color:#9ca3af;font-size:12px;margin:0;\">"
-             + "&copy; 2025 " + shopName + " &nbsp;&middot;&nbsp; Cảm ơn bạn đã tin tưởng mua sắm!</p>"
-             + "</div>"
-             + "</div>";
+        return "<div style=\"font-family:'Inter',Arial,sans-serif;max-width:620px;margin:0 auto;"
+                + "background:#FDFCFB;border:1px solid #F0EEE9;border-radius:18px;overflow:hidden;\">"
+
+                // HEADER
+                + "<div style=\"background:#1A1A1A;padding:36px 30px;text-align:center;\">"
+                + "<h1 style=\"color:#FDFCFB;margin:0;font-size:26px;letter-spacing:2px;\">"
+                + shopName + "</h1>"
+                + "<p style=\"color:#8C8C8C;margin:10px 0 0;font-size:11px;letter-spacing:3px;text-transform:uppercase;\">"
+                + "Premium Fashion Experience</p>"
+                + "</div>"
+
+                // BODY
+                + "<div style=\"padding:36px 30px;\">"
+                + "<h2 style=\"color:#1A1A1A;margin-top:0;"
+                + "font-family:'Playfair Display',serif;font-style:italic;font-size:24px;"
+                + "border-bottom:1px solid #F0EEE9;padding-bottom:12px;\">"
+                + tieuDe + "</h2>"
+                + noiDung
+                + "</div>"
+
+                // FOOTER
+                + "<div style=\"background:#F0EEE9;border-top:1px solid #E5E7EB;padding:18px 30px;text-align:center;\">"
+                + "<p style=\"color:#8C8C8C;font-size:11px;margin:0;letter-spacing:1px;\">"
+                + "&copy; 2026 " + shopName + " · All rights reserved</p>"
+                + "</div>"
+
+                + "</div>";
     }
 
     private String dongBang(String nhan, String giaTri, boolean vien) {
-        String b = vien ? "border-top:1px solid #e2e8f0;" : "";
+        String b = vien ? "border-top:1px solid #F0EEE9;" : "";
         return "<tr>"
-             + "<td style=\"color:#64748b;padding:9px 0;" + b + "\">" + nhan + "</td>"
-             + "<td style=\"text-align:right;padding:9px 0;" + b + "\">" + giaTri + "</td>"
-             + "</tr>";
+                + "<td style=\"color:#8C8C8C;padding:10px 0;font-size:13px;" + b + "\">" + nhan + "</td>"
+                + "<td style=\"text-align:right;padding:10px 0;font-size:13px;font-weight:600;color:#1A1A1A;" + b + "\">"
+                + giaTri + "</td>"
+                + "</tr>";
     }
 
     private void send(String to, String subject, String html) {
@@ -117,7 +128,7 @@ public class MailService {
         String noiDung = "<p style=\"font-size:15px;\">Xin chào <strong>" + ten + "</strong>,</p>"
             + "<p>Tài khoản tại <strong>" + shopName + "</strong> đã được tạo thành công! "
             + "Chào mừng bạn gia nhập cộng đồng mua sắm của chúng tôi.</p>"
-            + "<div style=\"background:#f0fdf4;border-left:4px solid #22c55e;"
+            + "<div style=\"background:#F0EEE9;border-left:4px solid #22c55e;"
             + "padding:16px 20px;border-radius:0 6px 6px 0;margin:24px 0;\">"
             + "<p style=\"margin:0;font-size:14px;\"><strong>Tên đăng nhập:</strong> <code>"
             + tenDangNhap + "</code></p>"
@@ -151,14 +162,14 @@ public class MailService {
             + "<div style=\"background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin:24px 0;\">"
             + "<table style=\"width:100%;border-collapse:collapse;\">"
             + dongBang("Mã đơn hàng",
-                "<span style=\"font-weight:700;color:#4f46e5;\">#" + maDonHang + "</span>", false)
+                "<span style=\"font-weight:700;color:#7B8062;\">#" + maDonHang + "</span>", false)
             + dongBang("Tổng thanh toán",
                 "<span style=\"font-weight:700;color:#16a34a;\">" + formatTien(tongTien) + "</span>", true)
             + dongBang("Phương thức", "Thanh toán khi nhận hàng (COD)", true)
             + dongBang("Trạng thái",
                 "<span style=\"color:#d97706;font-weight:600;\">⏳ Chờ xác nhận</span>", true)
             + "</table></div>"
-            + "<p style=\"color:#6b7280;font-size:14px;\">Chúng tôi sẽ xác nhận và xử lý đơn hàng "
+            + "<p style=\"color:#8C8C8C;font-size:14px;\">Chúng tôi sẽ xác nhận và xử lý đơn hàng "
             + "trong thời gian sớm nhất. Nếu có thắc mắc, vui lòng liên hệ với chúng tôi.</p>";
         send(toEmail,
              "[" + shopName + "] Đặt hàng thành công #" + maDonHang,
@@ -185,10 +196,10 @@ public class MailService {
         String maGD = (maGiaoDich != null && !maGiaoDich.isBlank()) ? maGiaoDich : "N/A";
         String noiDung = "<p style=\"font-size:15px;\">Xin chào <strong>" + ten + "</strong>,</p>"
             + "<p>Thanh toán VNPay cho đơn hàng của bạn đã được xác nhận thành công!</p>"
-            + "<div style=\"background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:20px;margin:24px 0;\">"
+            + "<div style=\"background:#F0EEE9;border:1px solid #E5E7EB;border-radius:8px;padding:20px;margin:24px 0;\">"
             + "<table style=\"width:100%;border-collapse:collapse;\">"
             + dongBang("Mã đơn hàng",
-                "<span style=\"font-weight:700;color:#4f46e5;\">#" + maDonHang + "</span>", false)
+                "<span style=\"font-weight:700;color:#7B8062;\">#" + maDonHang + "</span>", false)
             + dongBang("Số tiền",
                 "<span style=\"font-weight:700;color:#16a34a;\">" + formatTien(tongTien) + "</span>", true)
             + dongBang("Mã giao dịch VNPay",
@@ -225,17 +236,17 @@ public class MailService {
             default            -> "Trạng thái đơn hàng đã được cập nhật.";
         };
         boolean laHoanTat = "HOAN_TAT".equals(trangThaiMoi);
-        String mauNen  = laHoanTat ? "#f0fdf4" : "#eff6ff";
-        String mauVien = laHoanTat ? "#86efac" : "#bfdbfe";
+        String mauNen  = "#F0EEE9";
+        String mauVien = "#E5E7EB";
 
         String noiDung = "<p style=\"font-size:15px;\">Xin chào <strong>" + ten + "</strong>,</p>"
             + "<p>Đơn hàng <strong>#" + maDonHang + "</strong> vừa được cập nhật:</p>"
             + "<div style=\"background:" + mauNen + ";border:1px solid " + mauVien + ";"
             + "border-radius:8px;padding:24px;margin:24px 0;text-align:center;\">"
-            + "<p style=\"font-size:22px;font-weight:700;color:#1f2937;margin:0;\">" + label + "</p>"
-            + "<p style=\"color:#6b7280;margin:10px 0 0;font-size:14px;\">" + moTa + "</p>"
+            + "<p style=\"font-size:22px;font-weight:700;color:#1A1A1A;margin:0;\">" + label + "</p>"
+            + "<p style=\"color:#8C8C8C;margin:10px 0 0;font-size:14px;\">" + moTa + "</p>"
             + "</div>"
-            + "<p style=\"color:#6b7280;font-size:14px;\">Nếu có thắc mắc, vui lòng liên hệ với chúng tôi.</p>";
+            + "<p style=\"color:#8C8C8C;font-size:14px;\">Nếu có thắc mắc, vui lòng liên hệ với chúng tôi.</p>";
 
         String subject = laHoanTat
                 ? "[" + shopName + "] Giao hàng thành công #" + maDonHang
@@ -286,8 +297,8 @@ public class MailService {
             + "<p>Nhấn vào nút bên dưới để đặt lại mật khẩu:</p>"
             + "<div style=\"text-align:center;margin:32px 0;\">"
             + "<a href=\"" + resetLink + "\" style=\"background:#1A1A1A;color:#ffffff;"
-            + "padding:14px 40px;text-decoration:none;border-radius:4px;font-weight:bold;"
-            + "font-size:14px;letter-spacing:1px;display:inline-block;\">ĐẶT LẠI MẬT KHẨU</a>"
+            + "padding:16px 44px;text-decoration:none;border-radius:8px;"
+            + "font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;\">ĐẶT LẠI MẬT KHẨU</a>"
             + "</div>"
             + "<p style=\"color:#9ca3af;font-size:13px;\">Liên kết này sẽ hết hạn sau <strong>30 phút</strong>.</p>"
             + "<p style=\"color:#9ca3af;font-size:13px;\">Nếu bạn không yêu cầu đặt lại mật khẩu, "

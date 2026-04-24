@@ -4,6 +4,8 @@ import com.certainshop.dto.ApiResponse;
 import com.certainshop.dto.DangKyDto;
 import com.certainshop.entity.NguoiDung;
 import com.certainshop.repository.NguoiDungRepository;
+import com.certainshop.service.GoogleAuthService;
+import com.certainshop.service.GoogleUserInfo;
 import com.certainshop.service.NguoiDungService;
 import com.certainshop.util.JwtUtil;
 import jakarta.validation.Valid;
@@ -28,6 +30,7 @@ public class AuthApiController {
     private final JwtUtil jwtUtil;
     private final NguoiDungService nguoiDungService;
     private final NguoiDungRepository nguoiDungRepository;
+    private final GoogleAuthService googleAuthService;
 
     @PostMapping("/dang-nhap")
     public ResponseEntity<?> dangNhap(@RequestBody Map<String, String> request) {
@@ -175,4 +178,59 @@ public class AuthApiController {
             return ResponseEntity.badRequest().body(ApiResponse.loi(e.getMessage()));
         }
     }
+
+    // ======================== GOOGLE LOGIN ========================
+
+    @PostMapping("/google-login")
+    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> request) {
+        String idToken = request.get("idToken");
+
+        if (idToken == null || idToken.isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.loi("Google token không được để trống"));
+        }
+
+        try {
+            // Xác minh và trích xuất thông tin từ Google token
+            GoogleUserInfo googleUserInfo = googleAuthService.extractUserInfo(idToken);
+
+            // Đăng nhập hoặc tạo user
+            NguoiDung user = nguoiDungService.googleLogin(googleUserInfo);
+
+            // Tạo JWT token
+            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getTenDangNhap());
+            String jwtToken = jwtUtil.taoToken(userDetails);
+
+            // Normalize Vietnamese role name to ASCII
+            String vaiTro = user.getVaiTro().getTenVaiTro();
+            vaiTro = java.text.Normalizer.normalize(vaiTro, java.text.Normalizer.Form.NFD)
+                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                    .replace("đ", "d").replace("Đ", "D")
+                    .toUpperCase().replace(" ", "_");
+
+            Map<String, Object> userMap = new java.util.LinkedHashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("tenDangNhap", user.getTenDangNhap());
+            userMap.put("hoTen", user.getHoTen() != null ? user.getHoTen() : "");
+            userMap.put("email", user.getEmail() != null ? user.getEmail() : "");
+            userMap.put("soDienThoai", user.getSoDienThoai() != null ? user.getSoDienThoai() : "");
+            userMap.put("vaiTro", vaiTro);
+            userMap.put("anhDaiDien", user.getAnhDaiDien() != null ? user.getAnhDaiDien() : "");
+
+            Map<String, Object> responseData = Map.of(
+                    "token", jwtToken,
+                    "tokenType", "Bearer",
+                    "nguoiDung", userMap
+            );
+
+            return ResponseEntity.ok(ApiResponse.ok("Đăng nhập Google thành công", responseData));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401)
+                    .body(ApiResponse.loi(401, "Xác minh Google token thất bại: " + e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(ApiResponse.loi(500, "Lỗi khi xử lý đăng nhập Google"));
+        }
+    }
 }
+

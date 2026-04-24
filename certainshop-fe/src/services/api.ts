@@ -227,6 +227,9 @@ export const authApi = {
   dangKy: (data: { tenDangNhap: string; matKhau: string; xacNhanMatKhau: string; hoTen: string; email: string; soDienThoai?: string }) =>
     api.post<ApiResponse<{ token: string; tokenType: string; nguoiDung: User }>>('/auth/dang-ky', data),
 
+  googleLogin: (accessToken: string) =>
+    api.post<ApiResponse<{ token: string; tokenType: string; nguoiDung: User }>>('/auth/google-login', { idToken: accessToken }),
+
   layThongTinToi: () =>
     api.get<ApiResponse<User>>('/auth/toi'),
 

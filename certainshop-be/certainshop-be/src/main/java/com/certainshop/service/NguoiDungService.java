@@ -292,5 +292,91 @@ public class NguoiDungService {
         nguoiDung.setLanDoiMatKhauCuoi(LocalDateTime.now());
         nguoiDungRepository.save(nguoiDung);
     }
+
+    // ======================== GOOGLE LOGIN ========================
+
+    /**
+     * Xử lý Google login - tìm hoặc tạo user
+     */
+    public NguoiDung googleLogin(GoogleUserInfo googleUserInfo) {
+        // Tìm user theo Google ID
+        Optional<NguoiDung> existingUser = nguoiDungRepository.findByGoogleId(googleUserInfo.getGoogleId());
+        
+        if (existingUser.isPresent()) {
+            NguoiDung user = existingUser.get();
+            // Cập nhật thông tin nếu có thay đổi
+            if (googleUserInfo.getName() != null && !googleUserInfo.getName().equals(user.getHoTen())) {
+                user.setHoTen(googleUserInfo.getName());
+            }
+            if (googleUserInfo.getPicture() != null && !googleUserInfo.getPicture().equals(user.getAnhDaiDien())) {
+                user.setAnhDaiDien(googleUserInfo.getPicture());
+            }
+            user.setLanDangNhapCuoi(LocalDateTime.now());
+            return nguoiDungRepository.save(user);
+        }
+
+        // Tìm user theo email (có thể đã đăng ký trước)
+        Optional<NguoiDung> userByEmail = nguoiDungRepository.findByEmail(googleUserInfo.getEmail());
+        if (userByEmail.isPresent()) {
+            NguoiDung user = userByEmail.get();
+            user.setGoogleId(googleUserInfo.getGoogleId());
+            user.setAnhDaiDien(googleUserInfo.getPicture());
+            user.setLanDangNhapCuoi(LocalDateTime.now());
+            return nguoiDungRepository.save(user);
+        }
+
+        // Tạo user mới
+        VaiTro vaiTroKhach = vaiTroRepository.findByTenVaiTro(VaiTroConst.KHACH_HANG)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy vai trò Khách hàng"));
+
+        // Tạo username từ email
+        String username = generateUniqueUsername(googleUserInfo.getEmail());
+
+        NguoiDung newUser = NguoiDung.builder()
+                .tenDangNhap(username)
+                .googleId(googleUserInfo.getGoogleId())
+                .email(googleUserInfo.getEmail())
+                .hoTen(googleUserInfo.getName())
+                .anhDaiDien(googleUserInfo.getPicture())
+                .matKhauMaHoa(passwordEncoder.encode(UUID.randomUUID().toString())) // Random password
+                .vaiTro(vaiTroKhach)
+                .dangHoatDong(true)
+                .lanDangNhapCuoi(LocalDateTime.now())
+                .build();
+
+        newUser = nguoiDungRepository.save(newUser);
+
+        // Tạo giỏ hàng
+        GioHang gioHang = GioHang.builder()
+                .nguoiDung(newUser)
+                .build();
+        gioHangRepository.save(gioHang);
+
+        // Gửi email chào mừng
+        mailService.guiMailChaoMung(
+                newUser.getEmail(),
+                newUser.getHoTen(),
+                newUser.getTenDangNhap()
+        );
+
+        return newUser;
+    }
+
+    /**
+     * Tạo username duy nhất từ email
+     */
+    private String generateUniqueUsername(String email) {
+        String baseUsername = email.split("@")[0].toLowerCase();
+        String username = baseUsername;
+        int count = 1;
+
+        while (nguoiDungRepository.existsByTenDangNhap(username)) {
+            username = baseUsername + count;
+            count++;
+        }
+
+        return username;
+    }
 }
+
 

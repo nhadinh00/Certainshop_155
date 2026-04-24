@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, LogIn, ArrowLeft } from 'lucide-react';
 import { authApi } from '../services/api';
 import { useAuthStore } from '../stores/authStore';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 import toast from 'react-hot-toast';
 
 
@@ -119,6 +120,16 @@ export default function DangNhapPage() {
                   {loading ? 'Đang xác thực...' : 'Đăng nhập vào hệ thống'}
                 </button>
             </div>
+
+            {/* Divider */}
+            <div className="flex items-center gap-4 my-8">
+              <div className="flex-1 border-t border-[#E5E2D9]"></div>
+              <span className="text-[#8C8C8C] text-[10px] uppercase tracking-[0.2em] font-bold">Hoặc</span>
+              <div className="flex-1 border-t border-[#E5E2D9]"></div>
+            </div>
+
+            {/* Google Login */}
+            <GoogleLoginButton text="Đăng nhập với Google" />
           </form>
 
           <div className="mt-16 pt-8 border-t border-[#E5E2D9] text-center">

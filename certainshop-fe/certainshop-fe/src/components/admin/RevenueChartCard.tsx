@@ -44,8 +44,16 @@ export default function RevenueChartCard() {
   const chartRef = useRef<Chart<any, any, any> | null>(null);
 
   const {
+    mode,
     range,
-    setRange,
+    tuNgay,
+    denNgay,
+    validationError,
+    setTuNgay,
+    setDenNgay,
+    applyQuickRange,
+    applyCustomFilter,
+    resetFilter,
     data,
     loading,
     error,
@@ -270,33 +278,97 @@ export default function RevenueChartCard() {
           <div className="inline-flex rounded-xl border border-[#CBD5E1] bg-[#F8FAFC] p-1">
             <button
               type="button"
-              onClick={() => setRange('7d')}
+              onClick={() => applyQuickRange('7d')}
+              disabled={loading}
               className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                 range === '7d' ? 'bg-[#0284C7] text-white shadow-sm' : 'text-[#334155] hover:bg-[#E2E8F0]'
               }`}
             >
-              7 ngày gần nhất
+              7 ngày
             </button>
             <button
               type="button"
-              onClick={() => setRange('12m')}
+              onClick={() => applyQuickRange('30d')}
+              disabled={loading}
+              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                range === '30d' ? 'bg-[#0284C7] text-white shadow-sm' : 'text-[#334155] hover:bg-[#E2E8F0]'
+              }`}
+            >
+              1 tháng
+            </button>
+            <button
+              type="button"
+              onClick={() => applyQuickRange('12m')}
+              disabled={loading}
               className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                 range === '12m' ? 'bg-[#0284C7] text-white shadow-sm' : 'text-[#334155] hover:bg-[#E2E8F0]'
               }`}
             >
-              12 tháng gần nhất
+              12 tháng
             </button>
           </div>
 
           <button
             type="button"
             onClick={refetch}
-            className="inline-flex items-center gap-1 rounded-lg border border-[#CBD5E1] px-3 py-1.5 text-xs font-semibold text-[#334155] transition hover:border-[#0284C7] hover:text-[#0284C7]"
+            disabled={loading}
+            className="inline-flex items-center gap-1 rounded-lg border border-[#CBD5E1] px-3 py-1.5 text-xs font-semibold text-[#334155] transition hover:border-[#0284C7] hover:text-[#0284C7] disabled:cursor-not-allowed disabled:opacity-60"
           >
             <RefreshCcw className="h-3.5 w-3.5" />
             Làm mới
           </button>
         </div>
+      </div>
+
+      <div className="mb-4 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3 sm:p-4">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:gap-4">
+          <label className="flex min-w-[170px] flex-col gap-1">
+            <span className="text-xs font-semibold text-[#475569]">Từ ngày</span>
+            <input
+              type="date"
+              value={tuNgay}
+              max={denNgay || undefined}
+              disabled={loading}
+              onChange={(event) => setTuNgay(event.target.value)}
+              className="rounded-lg border border-[#CBD5E1] bg-white px-3 py-2 text-sm text-[#0F172A] outline-none transition focus:border-[#0284C7] disabled:cursor-not-allowed disabled:bg-[#F1F5F9]"
+            />
+          </label>
+
+          <label className="flex min-w-[170px] flex-col gap-1">
+            <span className="text-xs font-semibold text-[#475569]">Đến ngày</span>
+            <input
+              type="date"
+              value={denNgay}
+              min={tuNgay || undefined}
+              disabled={loading}
+              onChange={(event) => setDenNgay(event.target.value)}
+              className="rounded-lg border border-[#CBD5E1] bg-white px-3 py-2 text-sm text-[#0F172A] outline-none transition focus:border-[#0284C7] disabled:cursor-not-allowed disabled:bg-[#F1F5F9]"
+            />
+          </label>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={applyCustomFilter}
+              disabled={loading}
+              className="rounded-lg bg-[#0284C7] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#0369A1] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Lọc
+            </button>
+            <button
+              type="button"
+              onClick={resetFilter}
+              disabled={loading}
+              className="rounded-lg border border-[#CBD5E1] bg-white px-4 py-2 text-sm font-semibold text-[#334155] transition hover:border-[#94A3B8] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Xóa lọc
+            </button>
+          </div>
+        </div>
+
+        {validationError && (
+          <p className="mt-3 text-sm font-medium text-red-600">{validationError}</p>
+        )}
       </div>
 
       <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -332,16 +404,22 @@ export default function RevenueChartCard() {
       ) : !hasMeaningfulData ? (
         <div className="flex h-[320px] sm:h-[380px] flex-col items-center justify-center rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-6 text-center">
           <BarChart3 className="mb-2 h-6 w-6 text-[#94A3B8]" />
-          <p className="text-sm font-semibold text-[#334155]">Chưa có dữ liệu doanh thu trong kỳ này</p>
-          <p className="mt-1 text-sm text-[#64748B]">
-            Hệ thống vẫn hiển thị đầy đủ mốc thời gian, nhưng tất cả đang là 0 đ.
-          </p>
+          <p className="text-sm font-semibold text-[#334155]">Không có doanh thu trong khoảng này</p>
+          <p className="mt-1 text-sm text-[#64748B]">Bạn có thể đổi khoảng thời gian để xem dữ liệu khác.</p>
         </div>
       ) : (
         <div className="h-[320px] sm:h-[380px] rounded-2xl bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#F1F5F9] p-2 sm:p-3">
           <canvas ref={canvasRef} />
         </div>
       )}
+
+      <p className="mt-4 text-xs text-[#64748B]">
+        {mode === 'year'
+          ? 'Chế độ 12 tháng: dữ liệu được gom theo tháng (YYYY-MM).'
+          : mode === 'month'
+            ? 'Chế độ 1 tháng: hiển thị 30 điểm dữ liệu theo ngày.'
+            : 'Chế độ 7 ngày: hiển thị xu hướng doanh thu theo ngày.'}
+      </p>
     </section>
   );
 }

@@ -23,8 +23,11 @@ public class NguoiDung {
     @Column(name = "Email", unique = true, length = 150)
     private String email;
 
+    @Column(name = "GoogleId", unique = true, length = 255)
+    private String googleId;
+
     @JsonIgnore
-    @Column(name = "MatKhauMaHoa", nullable = false, length = 255)
+    @Column(name = "MatKhauMaHoa", length = 255)
     private String matKhauMaHoa;
 
     @Column(name = "HoTen", length = 150)

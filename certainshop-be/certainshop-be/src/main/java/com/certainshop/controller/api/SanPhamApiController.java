@@ -38,18 +38,36 @@ public class SanPhamApiController {
             @RequestParam(required = false) String tuKhoa,
             @RequestParam(required = false) Long danhMucId,
             @RequestParam(required = false) Long thuongHieuId,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
             @RequestParam(defaultValue = "0") int trang,
             @RequestParam(defaultValue = "12") int kichThuocTrang) {
 
-        Pageable pageable = PageRequest.of(trang, kichThuocTrang, Sort.by("thoiGianTao").descending());
-        Page<SanPham> page = sanPhamService.timKiemChoKhachHang(tuKhoa, danhMucId, thuongHieuId, pageable);
+        int pageIndex = page != null ? Math.max(page - 1, 0) : Math.max(trang, 0);
+        int pageSize = size != null ? Math.max(size, 1) : Math.max(kichThuocTrang, 1);
+
+        Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by("thoiGianTao").descending());
+        Page<SanPham> sanPhamPage = sanPhamService.timKiemChoKhachHang(tuKhoa, danhMucId, thuongHieuId, pageable);
+
+        List<Map<String, Object>> content = sanPhamPage.getContent()
+                .stream()
+                .map(this::toSanPhamSummary)
+                .collect(Collectors.toList());
 
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("danhSach", page.getContent().stream().map(this::toSanPhamSummary).collect(Collectors.toList()));
-        result.put("tongSoTrang", page.getTotalPages());
-        result.put("tongSoBan", page.getTotalElements());
-        result.put("trangHienTai", page.getNumber());
-        result.put("kichThuocTrang", page.getSize());
+        // New response shape
+        result.put("content", content);
+        result.put("totalPages", sanPhamPage.getTotalPages());
+        result.put("totalElements", sanPhamPage.getTotalElements());
+        result.put("page", sanPhamPage.getNumber() + 1);
+        result.put("size", sanPhamPage.getSize());
+
+        // Legacy response shape for backward compatibility
+        result.put("danhSach", content);
+        result.put("tongSoTrang", sanPhamPage.getTotalPages());
+        result.put("tongSoBan", sanPhamPage.getTotalElements());
+        result.put("trangHienTai", sanPhamPage.getNumber());
+        result.put("kichThuocTrang", sanPhamPage.getSize());
 
         return ResponseEntity.ok(ApiResponse.ok(result));
     }

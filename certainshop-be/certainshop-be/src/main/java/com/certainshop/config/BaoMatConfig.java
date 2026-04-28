@@ -67,9 +67,14 @@ public class BaoMatConfig {
                     .replace("đ", "d").replace("Đ", "D")
                     .toUpperCase().replace(" ", "_");
 
+            String matKhau = nd.getMatKhauMaHoa();
+            if (matKhau == null) {
+                matKhau = ""; // Prevent IllegalArgumentException: password cannot be null
+            }
+
             return User.builder()
                     .username(nd.getTenDangNhap())
-                    .password(nd.getMatKhauMaHoa())
+                    .password(matKhau)
                     .authorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + tenVaiTro)))
                     .build();
         };

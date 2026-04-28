@@ -227,6 +227,9 @@ export const authApi = {
   dangKy: (data: { tenDangNhap: string; matKhau: string; xacNhanMatKhau: string; hoTen: string; email: string; soDienThoai?: string }) =>
     api.post<ApiResponse<{ token: string; tokenType: string; nguoiDung: User }>>('/auth/dang-ky', data),
 
+  googleLogin: (accessToken: string) =>
+    api.post<ApiResponse<{ token: string; tokenType: string; nguoiDung: User }>>('/auth/google-login', { idToken: accessToken }),
+
   layThongTinToi: () =>
     api.get<ApiResponse<User>>('/auth/toi'),
 
@@ -238,12 +241,25 @@ export const authApi = {
 };
 
 // ===================== SẢN PHẨM =====================
-// Tất cả list endpoints trả về: { danhSach, tongSoTrang, tongSoBan, trangHienTai }
+// Tất cả list endpoints trả về tương thích cả format cũ và mới:
+// - Mới: { content, totalPages, totalElements, page, size }
+// - Cũ: { danhSach, tongSoTrang, tongSoBan, trangHienTai }
 
 export const sanPhamApi = {
-  /** GET /san-pham → { danhSach, tongSoTrang, tongSoBan, trangHienTai } */
-  danhSach: (params?: { tuKhoa?: string; danhMucId?: number; thuongHieuId?: number; trang?: number; kichThuocTrang?: number }) =>
-    api.get<ApiResponse<{ danhSach: SanPhamItem[]; tongSoTrang: number; tongSoBan: number; trangHienTai: number }>>('/san-pham', { params }),
+  /** GET /san-pham → hỗ trợ cả format response mới/cũ */
+  danhSach: (params?: { tuKhoa?: string; danhMucId?: number; thuongHieuId?: number; page?: number; size?: number; trang?: number; kichThuocTrang?: number }) =>
+    api.get<ApiResponse<{
+      content?: SanPhamItem[];
+      totalPages?: number;
+      totalElements?: number;
+      page?: number;
+      size?: number;
+      danhSach?: SanPhamItem[];
+      tongSoTrang?: number;
+      tongSoBan?: number;
+      trangHienTai?: number;
+      kichThuocTrang?: number;
+    }>>('/san-pham', { params }),
 
   /** GET /san-pham/{duongDan} → SanPhamDetail (có moTa + bienThe) */
   chiTiet: (duongDan: string) =>
